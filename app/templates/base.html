@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Happy Gate{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            500: '#b91c1c',
+                            600: '#991b1b',
+                            700: '#7f1d1d',
+                            800: '#651a1a',
+                            900: '#450a0a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-stone-50 min-h-screen relative">
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <img src="/static/images/dragon-phoenix.png"
+             alt="" class="w-full h-full object-cover opacity-[0.15]">
+    </div>
+    <header class="bg-brand-700 shadow-lg relative z-10">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div id="lang-switcher" class="flex items-center gap-1">
+                <button onclick="setLang('nl')" class="lang-btn px-1.5 py-0.5 rounded text-xs hover:bg-white/10" data-lang="nl" title="Nederlands">
+                    <img src="https://flagcdn.com/w20/nl.png" width="16" height="12" alt="NL" class="inline">
+                </button>
+                <button onclick="setLang('en')" class="lang-btn px-1.5 py-0.5 rounded text-xs hover:bg-white/10" data-lang="en" title="English">
+                    <img src="https://flagcdn.com/w20/gb.png" width="16" height="12" alt="EN" class="inline">
+                </button>
+                <button onclick="setLang('zh')" class="lang-btn px-1.5 py-0.5 rounded text-xs hover:bg-white/10" data-lang="zh" title="中文">
+                    <img src="https://flagcdn.com/w20/cn.png" width="16" height="12" alt="中文" class="inline">
+                </button>
+            </div>
+            <a href="/cart" class="relative text-white/80 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+                </svg>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-brand-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+            </a>
+        </div>
+    </header>
+    <main class="max-w-4xl mx-auto px-4 py-6 relative z-10">
+        {% block content %}{% endblock %}
+    </main>
+    <script>
+        const translations = {
+            nl: {
+                'menu.subtitle': 'Chinees Indisch Afhaalcentrum',
+                'cart.title': 'Uw Winkelwagen',
+                'cart.empty': 'Uw winkelwagen is leeg',
+                'cart.browse': 'Bekijk menu',
+                'cart.total': 'Totaal',
+                'cart.checkout': 'Afrekenen',
+                'cart.remove': 'Verwijderen',
+                'menu.add_to_cart': 'Toevoegen',
+                'menu.special_notes': 'Speciale wensen',
+                'menu.notes_placeholder': 'Eventuele speciale wensen...',
+                'menu.required': '(verplicht)',
+                'checkout.title': 'Afrekenen',
+                'checkout.name': 'Naam *',
+                'checkout.name_placeholder': 'Uw naam',
+                'checkout.email': 'E-mail *',
+                'checkout.email_placeholder': 'u@voorbeeld.nl',
+                'checkout.phone': 'Telefoon *',
+                'checkout.phone_placeholder': '06-12345678',
+                'checkout.pickup_notes': 'Ophaalnotities (optioneel)',
+                'checkout.pickup_placeholder': 'bijv. Ik sta in een rode auto',
+                'checkout.place_order': 'Bestelling plaatsen',
+                'checkout.placing': 'Bestelling plaatsen...',
+                'checkout.error': 'Er is iets misgegaan. Probeer het opnieuw.',
+                'order.received': 'Bestelling Ontvangen',
+                'order.confirmed': 'Bestelling Bevestigd!',
+                'order.not_confirmed': 'Bestelling Niet Bevestigd',
+                'order.pending_msg': 'Het restaurant bekijkt uw bestelling. U ontvangt binnenkort een bevestigingsmail.',
+                'order.pickup_time': 'Ophaaltijd',
+                'order.rejected_msg': 'Helaas kon het restaurant uw bestelling niet bevestigen. Probeer het opnieuw of neem rechtstreeks contact op.',
+                'order.not_found': 'Bestelling niet gevonden',
+                'order.back_to_menu': 'Terug naar menu',
+            },
+            en: {
+                'menu.subtitle': 'Chinese Indonesian Takeaway',
+                'cart.title': 'Your Cart',
+                'cart.empty': 'Your cart is empty',
+                'cart.browse': 'Browse menu',
+                'cart.total': 'Total',
+                'cart.checkout': 'Proceed to Checkout',
+                'cart.remove': 'Remove',
+                'menu.add_to_cart': 'Add to cart',
+                'menu.special_notes': 'Special notes',
+                'menu.notes_placeholder': 'Any special requests...',
+                'menu.required': '(required)',
+                'checkout.title': 'Checkout',
+                'checkout.name': 'Name *',
+                'checkout.name_placeholder': 'Your name',
+                'checkout.email': 'Email *',
+                'checkout.email_placeholder': 'you@example.com',
+                'checkout.phone': 'Phone *',
+                'checkout.phone_placeholder': '(555) 123-4567',
+                'checkout.pickup_notes': 'Pickup notes (optional)',
+                'checkout.pickup_placeholder': "e.g. I'll be in a red car",
+                'checkout.place_order': 'Place Order',
+                'checkout.placing': 'Placing order...',
+                'checkout.error': 'Something went wrong. Please try again.',
+                'order.received': 'Order Received',
+                'order.confirmed': 'Order Confirmed!',
+                'order.not_confirmed': 'Order Not Confirmed',
+                'order.pending_msg': "The restaurant is reviewing your order. You'll receive an email confirmation shortly.",
+                'order.pickup_time': 'Pickup time',
+                'order.rejected_msg': 'Unfortunately, the restaurant was unable to confirm your order. Please try again or contact them directly.',
+                'order.not_found': 'Order not found',
+                'order.back_to_menu': 'Back to menu',
+            },
+            zh: {
+                'menu.subtitle': '中印外卖中心',
+                'cart.title': '您的购物车',
+                'cart.empty': '购物车为空',
+                'cart.browse': '浏览菜单',
+                'cart.total': '合计',
+                'cart.checkout': '去结账',
+                'cart.remove': '删除',
+                'menu.add_to_cart': '加入购物车',
+                'menu.special_notes': '特殊备注',
+                'menu.notes_placeholder': '有什么特殊要求...',
+                'menu.required': '(必选)',
+                'checkout.title': '结账',
+                'checkout.name': '姓名 *',
+                'checkout.name_placeholder': '您的姓名',
+                'checkout.email': '邮箱 *',
+                'checkout.email_placeholder': 'you@example.com',
+                'checkout.phone': '电话 *',
+                'checkout.phone_placeholder': '138-0000-0000',
+                'checkout.pickup_notes': '取餐备注（可选）',
+                'checkout.pickup_placeholder': '例如：我开红色的车',
+                'checkout.place_order': '下单',
+                'checkout.placing': '正在下单...',
+                'checkout.error': '出了点问题，请重试。',
+                'order.received': '订单已收到',
+                'order.confirmed': '订单已确认！',
+                'order.not_confirmed': '订单未确认',
+                'order.pending_msg': '餐厅正在审核您的订单，您将很快收到确认邮件。',
+                'order.pickup_time': '取餐时间',
+                'order.rejected_msg': '很抱歉，餐厅无法确认您的订单。请重试或直接联系餐厅。',
+                'order.not_found': '订单未找到',
+                'order.back_to_menu': '返回菜单',
+            }
+        };
+
+        function getLang() {
+            return localStorage.getItem('lang') || 'nl';
+        }
+
+        function t(key) {
+            const lang = getLang();
+            return translations[lang][key] || translations['nl'][key] || key;
+        }
+
+        function setLang(lang) {
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang;
+            applyTranslations();
+            highlightLangBtn();
+            if (typeof onLangChange === 'function') onLangChange();
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = t(el.dataset.i18n);
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                el.placeholder = t(el.dataset.i18nPlaceholder);
+            });
+        }
+
+        function highlightLangBtn() {
+            const lang = getLang();
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.dataset.lang === lang) {
+                    btn.style.outline = '2px solid white';
+                    btn.style.outlineOffset = '1px';
+                    btn.style.opacity = '1';
+                } else {
+                    btn.style.outline = 'none';
+                    btn.style.opacity = '0.6';
+                }
+            });
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cart-count');
+            if (count > 0) {
+                badge.textContent = count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        document.documentElement.lang = getLang();
+        highlightLangBtn();
+        updateCartBadge();
+        applyTranslations();
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

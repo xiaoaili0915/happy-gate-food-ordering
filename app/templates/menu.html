@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% block title %}Menu - Happy Gate{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<div class="mb-8 bg-transparent">
+    <div class="flex flex-col items-center justify-center text-center p-6">
+        <p class="text-brand-700 text-sm sm:text-base tracking-widest uppercase font-medium" data-i18n="menu.subtitle">Chinees Indisch Afhaalcentrum</p>
+        <h1 class="text-4xl sm:text-5xl font-bold text-brand-700 mt-2">HAPPY GATE</h1>
+        <p class="text-brand-700 text-2xl sm:text-3xl mt-1 font-serif">喜 臨 門</p>
+    </div>
+</div>
+
+<!-- Menu Categories -->
+<div id="menu-container" class="space-y-10">
+    {% for category in categories %}
+    <section>
+        <!-- Category Header with Image -->
+        {% if category.image_url %}
+        <div class="relative rounded-xl overflow-hidden mb-4 shadow-md">
+            <img src="{{ category.image_url }}" alt="{{ category.name }}"
+                 class="w-full h-32 sm:h-40 object-cover" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
+            <h2 class="absolute bottom-0 left-0 p-4 text-xl sm:text-2xl font-bold text-white drop-shadow menu-name"
+                data-name-nl="{{ category.name }}" data-name-en="{{ category.name_en }}" data-name-zh="{{ category.name_zh }}">{{ category.name }}</h2>
+        </div>
+        {% else %}
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 py-2 menu-name"
+            data-name-nl="{{ category.name }}" data-name-en="{{ category.name_en }}" data-name-zh="{{ category.name_zh }}">{{ category.name }}</h2>
+        {% endif %}
+
+        <!-- Menu Items Grid -->
+        <div class="grid gap-3">
+            {% for item in category.menu_items %}
+            <div class="bg-white rounded-lg shadow-sm p-4 border border-stone-200 hover:shadow-md hover:border-red-200 transition-all cursor-pointer"
+                 onclick='openItemModal({{ item | tojson }})'>
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-900 menu-name"
+                            data-name-nl="{{ item.name }}" data-name-en="{{ item.name_en }}" data-name-zh="{{ item.name_zh }}">{{ item.name }}</h3>
+                        {% if item.description %}
+                        <p class="text-sm text-gray-500 mt-1 menu-desc"
+                           data-desc-nl="{{ item.description }}" data-desc-en="{{ item.description_en }}" data-desc-zh="{{ item.description_zh }}">{{ item.description }}</p>
+                        {% endif %}
+                    </div>
+                    <span class="text-lg font-medium text-brand-700 ml-4">&euro;{{ "%.2f" | format(item.price_cents / 100) }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</div>
+
+<!-- Item Modal -->
+<div id="item-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-end sm:items-center justify-center backdrop-blur-sm">
+    <div class="bg-white w-full sm:max-w-lg sm:rounded-xl rounded-t-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+        <div class="p-6">
+            <div class="flex justify-between items-start mb-4">
+                <h3 id="modal-item-name" class="text-xl font-bold text-gray-900"></h3>
+                <button onclick="closeItemModal()" class="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+            </div>
+            <p id="modal-item-desc" class="text-gray-500 mb-4"></p>
+            <div id="modal-modifiers"></div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="menu.special_notes">Speciale wensen</label>
+                <input type="text" id="modal-notes" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" data-i18n-placeholder="menu.notes_placeholder" placeholder="Eventuele speciale wensen...">
+            </div>
+            <div class="flex items-center justify-between mt-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="changeQty(-1)" class="w-8 h-8 rounded-full border border-stone-300 flex items-center justify-center text-lg hover:bg-stone-100">-</button>
+                    <span id="modal-qty" class="text-lg font-medium">1</span>
+                    <button onclick="changeQty(1)" class="w-8 h-8 rounded-full border border-stone-300 flex items-center justify-center text-lg hover:bg-stone-100">+</button>
+                </div>
+                <button onclick="addToCart()" class="bg-brand-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-600 transition-colors shadow-md">
+                    <span data-i18n="menu.add_to_cart">Toevoegen</span> - <span id="modal-total">&euro;0.00</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentItem = null;
+let currentQty = 1;
+
+function menuLang(obj, field) {
+    const lang = getLang();
+    if (lang === 'nl') return obj[field] || '';
+    const val = obj[field + '_' + lang];
+    return val || obj[field] || '';
+}
+
+function applyMenuTranslations() {
+    const lang = getLang();
+    document.querySelectorAll('.menu-name').forEach(el => {
+        const val = el.dataset['name' + lang.charAt(0).toUpperCase() + lang.slice(1)];
+        if (val) el.textContent = val;
+    });
+    document.querySelectorAll('.menu-desc').forEach(el => {
+        const val = el.dataset['desc' + lang.charAt(0).toUpperCase() + lang.slice(1)];
+        if (val !== undefined) el.textContent = val;
+    });
+}
+
+function onLangChange() {
+    applyTranslations();
+    applyMenuTranslations();
+}
+
+applyMenuTranslations();
+
+function openItemModal(item) {
+    currentItem = item;
+    currentQty = 1;
+    document.getElementById('modal-item-name').textContent = menuLang(item, 'name');
+    document.getElementById('modal-item-desc').textContent = menuLang(item, 'description');
+    document.getElementById('modal-qty').textContent = '1';
+    document.getElementById('modal-notes').value = '';
+
+    const modContainer = document.getElementById('modal-modifiers');
+    modContainer.innerHTML = '';
+
+    if (item.modifier_groups && item.modifier_groups.length > 0) {
+        item.modifier_groups.forEach(group => {
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'mb-4';
+            const groupName = menuLang(group, 'name');
+            const label = `${groupName}${group.required ? ' ' + t('menu.required') : ''}`;
+            groupDiv.innerHTML = `<p class="font-medium text-sm text-gray-700 mb-2">${label}</p>`;
+
+            group.options.forEach(opt => {
+                const inputType = group.max_select === 1 ? 'radio' : 'checkbox';
+                const optName = menuLang(opt, 'name');
+                const priceStr = opt.price_cents > 0 ? ` (+€${(opt.price_cents / 100).toFixed(2)})` : '';
+                const optDiv = document.createElement('label');
+                optDiv.className = 'flex items-center gap-2 py-1 cursor-pointer';
+                optDiv.innerHTML = `
+                    <input type="${inputType}" name="mod_${group.id}" value="${opt.id}"
+                           data-name="${opt.name}" data-price="${opt.price_cents}"
+                           onchange="updateTotal()" class="accent-red-700">
+                    <span class="text-sm">${optName}${priceStr}</span>
+                `;
+                groupDiv.appendChild(optDiv);
+            });
+            modContainer.appendChild(groupDiv);
+        });
+    }
+
+    updateTotal();
+    document.getElementById('item-modal').classList.remove('hidden');
+}
+
+function closeItemModal() {
+    document.getElementById('item-modal').classList.add('hidden');
+    currentItem = null;
+}
+
+function changeQty(delta) {
+    currentQty = Math.max(1, currentQty + delta);
+    document.getElementById('modal-qty').textContent = currentQty;
+    updateTotal();
+}
+
+function getSelectedModifiers() {
+    const mods = [];
+    document.querySelectorAll('#modal-modifiers input:checked').forEach(input => {
+        mods.push({
+            modifier_name: input.dataset.name,
+            price_cents: parseInt(input.dataset.price),
+        });
+    });
+    return mods;
+}
+
+function updateTotal() {
+    if (!currentItem) return;
+    const mods = getSelectedModifiers();
+    const modTotal = mods.reduce((sum, m) => sum + m.price_cents, 0);
+    const total = (currentItem.price_cents + modTotal) * currentQty;
+    document.getElementById('modal-total').textContent = `€${(total / 100).toFixed(2)}`;
+}
+
+function addToCart() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const mods = getSelectedModifiers();
+    const notes = document.getElementById('modal-notes').value.trim();
+
+    cart.push({
+        menu_item_id: currentItem.id,
+        item_name: currentItem.name,
+        quantity: currentQty,
+        unit_price_cents: currentItem.price_cents,
+        special_notes: notes,
+        modifiers: mods,
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartBadge();
+    closeItemModal();
+}
+
+document.getElementById('item-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeItemModal();
+});
+</script>
+{% endblock %}

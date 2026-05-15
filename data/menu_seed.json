@@ -1,0 +1,989 @@
+{
+  "categories": [
+    {
+      "name": "Soepen",
+      "name_en": "Soups",
+      "name_zh": "汤类",
+      "image_url": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=400&fit=crop&q=80",
+      "sort_order": 1,
+      "items": [
+        {
+          "name": "Tomatensoep",
+          "name_en": "Tomato Soup",
+          "name_zh": "番茄汤",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 450,
+          "sort_order": 1,
+          "modifier_groups": []
+        },
+        {
+          "name": "Kippensoep",
+          "name_en": "Chicken Soup",
+          "name_zh": "鸡汤",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 450,
+          "sort_order": 2,
+          "modifier_groups": []
+        },
+        {
+          "name": "Wan Tan soep",
+          "name_en": "Wonton Soup",
+          "name_zh": "馄饨汤",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 500,
+          "sort_order": 3,
+          "modifier_groups": []
+        },
+        {
+          "name": "Chinese tomatensoep",
+          "name_en": "Chinese Tomato Soup",
+          "name_zh": "中式番茄汤",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 500,
+          "sort_order": 4,
+          "modifier_groups": []
+        }
+      ]
+    },
+    {
+      "name": "Voor- en bijgerechten",
+      "name_en": "Starters & Side Dishes",
+      "name_zh": "前菜与小食",
+      "image_url": "https://images.unsplash.com/photo-1553163147-622ab57be1c7?w=800&h=400&fit=crop&q=80",
+      "sort_order": 2,
+      "items": [
+        {
+          "name": "Kroepoek",
+          "name_en": "Prawn Crackers",
+          "name_zh": "虾片",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 250,
+          "sort_order": 1,
+          "modifier_groups": []
+        },
+        {
+          "name": "Loempia",
+          "name_en": "Spring Roll",
+          "name_zh": "春卷",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 350,
+          "sort_order": 2,
+          "modifier_groups": [
+            {
+              "name": "Vulling",
+              "name_en": "Filling",
+              "name_zh": "馅料",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Met ham", "name_en": "With ham", "name_zh": "火腿", "price_cents": 0},
+                {"name": "Met kip", "name_en": "With chicken", "name_zh": "鸡肉", "price_cents": 0},
+                {"name": "Vegetarisch", "name_en": "Vegetarian", "name_zh": "素食", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Diverse sauzen",
+          "name_en": "Various Sauces",
+          "name_zh": "各式酱料",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 200,
+          "sort_order": 3,
+          "modifier_groups": [
+            {
+              "name": "Portie",
+              "name_en": "Portion",
+              "name_zh": "份量",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Normaal", "name_en": "Regular", "name_zh": "普通", "price_cents": 0},
+                {"name": "Groot", "name_en": "Large", "name_zh": "大份", "price_cents": 200}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Atjar",
+          "name_en": "Pickled Vegetables",
+          "name_zh": "腌菜",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 200,
+          "sort_order": 4,
+          "modifier_groups": [
+            {
+              "name": "Portie",
+              "name_en": "Portion",
+              "name_zh": "份量",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Klein", "name_en": "Small", "name_zh": "小份", "price_cents": 0},
+                {"name": "Groot", "name_en": "Large", "name_zh": "大份", "price_cents": 150}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Miniloempiaatjes (10 stuks)",
+          "name_en": "Mini Spring Rolls (10 pcs)",
+          "name_zh": "迷你春卷（10个）",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 500,
+          "sort_order": 5,
+          "modifier_groups": []
+        }
+      ]
+    },
+    {
+      "name": "Nasi of Bami",
+      "name_en": "Fried Rice or Noodles",
+      "name_zh": "炒饭或炒面",
+      "image_url": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800&h=400&fit=crop&q=80",
+      "sort_order": 3,
+      "items": [
+        {
+          "name": "Nasi Goreng",
+          "name_en": "Fried Rice",
+          "name_zh": "炒饭",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 850,
+          "sort_order": 1,
+          "modifier_groups": []
+        },
+        {
+          "name": "Bami Goreng",
+          "name_en": "Fried Noodles",
+          "name_zh": "炒面",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 850,
+          "sort_order": 2,
+          "modifier_groups": []
+        },
+        {
+          "name": "Nasi Goreng speciaal",
+          "name_en": "Special Fried Rice",
+          "name_zh": "特制炒饭",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1050,
+          "sort_order": 3,
+          "modifier_groups": []
+        },
+        {
+          "name": "Bami Goreng speciaal",
+          "name_en": "Special Fried Noodles",
+          "name_zh": "特制炒面",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1050,
+          "sort_order": 4,
+          "modifier_groups": []
+        }
+      ]
+    },
+    {
+      "name": "Nasi of Bami combinatie",
+      "name_en": "Rice or Noodle Combo",
+      "name_zh": "饭面套餐",
+      "image_url": "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=800&h=400&fit=crop&q=80",
+      "sort_order": 4,
+      "items": [
+        {
+          "name": "Nasi of Bami combinatie",
+          "name_en": "Rice or Noodle Combo",
+          "name_zh": "饭面套餐",
+          "description": "Keuze uit nasi of bami met diverse combinaties",
+          "description_en": "Choice of rice or noodles with various combinations",
+          "description_zh": "可选炒饭或炒面搭配多种配菜",
+          "price_cents": 1200,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Basis",
+              "name_en": "Base",
+              "name_zh": "主食",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mihoen of Chinese Bami",
+      "name_en": "Rice Noodles or Chinese Noodles",
+      "name_zh": "米粉或中式面",
+      "image_url": "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=800&h=400&fit=crop&q=80",
+      "sort_order": 5,
+      "items": [
+        {
+          "name": "Mihoen Goreng",
+          "name_en": "Fried Rice Noodles",
+          "name_zh": "炒米粉",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 850,
+          "sort_order": 1,
+          "modifier_groups": []
+        },
+        {
+          "name": "Chinese Bami",
+          "name_en": "Chinese Noodles",
+          "name_zh": "中式炒面",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 850,
+          "sort_order": 2,
+          "modifier_groups": []
+        },
+        {
+          "name": "Mihoen Goreng speciaal",
+          "name_en": "Special Fried Rice Noodles",
+          "name_zh": "特制炒米粉",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1050,
+          "sort_order": 3,
+          "modifier_groups": []
+        },
+        {
+          "name": "Chinese Bami speciaal",
+          "name_en": "Special Chinese Noodles",
+          "name_zh": "特制中式炒面",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1050,
+          "sort_order": 4,
+          "modifier_groups": []
+        }
+      ]
+    },
+    {
+      "name": "Foe Yong Hai of Tjap Tjoy",
+      "name_en": "Egg Foo Young or Chop Suey",
+      "name_zh": "芙蓉蛋或杂碎",
+      "image_url": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=800&h=400&fit=crop&q=80",
+      "sort_order": 6,
+      "items": [
+        {
+          "name": "Foe Yong Hai",
+          "name_en": "Egg Foo Young",
+          "name_zh": "芙蓉蛋",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 950,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Gerecht",
+              "name_en": "Dish",
+              "name_zh": "菜品",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Foe Yong Hai", "name_en": "Egg Foo Young", "name_zh": "芙蓉蛋", "price_cents": 0},
+                {"name": "Foe Yong Hai speciaal", "name_en": "Special Egg Foo Young", "name_zh": "特制芙蓉蛋", "price_cents": 200}
+              ]
+            },
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Tjap Tjoy",
+          "name_en": "Chop Suey",
+          "name_zh": "杂碎",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 950,
+          "sort_order": 2,
+          "modifier_groups": [
+            {
+              "name": "Gerecht",
+              "name_en": "Dish",
+              "name_zh": "菜品",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Tjap Tjoy", "name_en": "Chop Suey", "name_zh": "杂碎", "price_cents": 0},
+                {"name": "Tjap Tjoy speciaal", "name_en": "Special Chop Suey", "name_zh": "特制杂碎", "price_cents": 200}
+              ]
+            },
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kip of Vlees",
+      "name_en": "Chicken or Meat",
+      "name_zh": "鸡肉或肉类",
+      "image_url": "https://images.unsplash.com/photo-1525755662778-989d0524087e?w=800&h=400&fit=crop&q=80",
+      "sort_order": 7,
+      "items": [
+        {
+          "name": "Kip met kerrie saus",
+          "name_en": "Chicken with Curry Sauce",
+          "name_zh": "咖喱鸡",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1050,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kip in zwarte bonensaus",
+          "name_en": "Chicken in Black Bean Sauce",
+          "name_zh": "豆豉鸡",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1050,
+          "sort_order": 2,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Koe Lo Yuk",
+          "name_en": "Sweet and Sour Pork",
+          "name_zh": "咕噜肉",
+          "description": "Vlees in zoetzure saus",
+          "description_en": "Meat in sweet and sour sauce",
+          "description_zh": "糖醋肉",
+          "price_cents": 1100,
+          "sort_order": 3,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Biefstuk",
+      "name_en": "Steak",
+      "name_zh": "牛排",
+      "image_url": "https://images.unsplash.com/photo-1567529692333-de9fd6772897?w=800&h=400&fit=crop&q=80",
+      "sort_order": 8,
+      "items": [
+        {
+          "name": "Biefstuk met ui",
+          "name_en": "Steak with Onion",
+          "name_zh": "洋葱牛排",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1250,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Biefstuk met champignons",
+          "name_en": "Steak with Mushrooms",
+          "name_zh": "蘑菇牛排",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1300,
+          "sort_order": 2,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Biefstuk in zwarte bonensaus",
+          "name_en": "Steak in Black Bean Sauce",
+          "name_zh": "豆豉牛排",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1300,
+          "sort_order": 3,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Garnalen",
+      "name_en": "Prawns",
+      "name_zh": "虾类",
+      "image_url": "https://images.unsplash.com/photo-1625943553852-781c6dd46faa?w=800&h=400&fit=crop&q=80",
+      "sort_order": 9,
+      "items": [
+        {
+          "name": "Garnalen met kerrie saus",
+          "name_en": "Prawns with Curry Sauce",
+          "name_zh": "咖喱虾",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1250,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Garnalen met Chinese groenten",
+          "name_en": "Prawns with Chinese Vegetables",
+          "name_zh": "中式蔬菜虾",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1250,
+          "sort_order": 2,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Babi (varkensvlees) of Ajam (gebakken kip)",
+      "name_en": "Pork or Fried Chicken",
+      "name_zh": "猪肉或炸鸡",
+      "image_url": "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=400&fit=crop&q=80",
+      "sort_order": 10,
+      "items": [
+        {
+          "name": "Babi Pangang",
+          "name_en": "Roasted Pork in Spicy Sauce",
+          "name_zh": "叉烧肉",
+          "description": "Geroosterd varkensvlees in pikante saus",
+          "description_en": "Roasted pork in spicy sauce",
+          "description_zh": "辣酱烤猪肉",
+          "price_cents": 1050,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Ajam Pangang",
+          "name_en": "Fried Chicken in Spicy Sauce",
+          "name_zh": "香辣炸鸡",
+          "description": "Gebakken kip in pikante saus",
+          "description_en": "Fried chicken in spicy sauce",
+          "description_zh": "辣酱炸鸡",
+          "price_cents": 1050,
+          "sort_order": 2,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Indonesisch",
+      "name_en": "Indonesian",
+      "name_zh": "印尼菜",
+      "image_url": "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=800&h=400&fit=crop&q=80",
+      "sort_order": 11,
+      "items": [
+        {
+          "name": "Rendang",
+          "name_en": "Rendang",
+          "name_zh": "仁当牛肉",
+          "description": "Indonesisch gestoofd rundvlees",
+          "description_en": "Indonesian braised beef",
+          "description_zh": "印尼式慢炖牛肉",
+          "price_cents": 1150,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Saté Ajam",
+          "name_en": "Chicken Satay",
+          "name_zh": "沙爹鸡肉串",
+          "description": "Kipspiesjes met pindasaus",
+          "description_en": "Chicken skewers with peanut sauce",
+          "description_zh": "花生酱鸡肉串",
+          "price_cents": 1100,
+          "sort_order": 2,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Saté Babi",
+          "name_en": "Pork Satay",
+          "name_zh": "沙爹猪肉串",
+          "description": "Varkensspiesjes met pindasaus",
+          "description_en": "Pork skewers with peanut sauce",
+          "description_zh": "花生酱猪肉串",
+          "price_cents": 1100,
+          "sort_order": 3,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Vegetarisch",
+      "name_en": "Vegetarian",
+      "name_zh": "素食",
+      "image_url": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&h=400&fit=crop&q=80",
+      "sort_order": 12,
+      "items": [
+        {
+          "name": "Vegetarische nasi",
+          "name_en": "Vegetarian Fried Rice",
+          "name_zh": "素炒饭",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 850,
+          "sort_order": 1,
+          "modifier_groups": []
+        },
+        {
+          "name": "Vegetarische bami",
+          "name_en": "Vegetarian Fried Noodles",
+          "name_zh": "素炒面",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 850,
+          "sort_order": 2,
+          "modifier_groups": []
+        },
+        {
+          "name": "Vegetarische Tjap Tjoy",
+          "name_en": "Vegetarian Chop Suey",
+          "name_zh": "素杂碎",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 950,
+          "sort_order": 3,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kindermenu",
+      "name_en": "Kids Menu",
+      "name_zh": "儿童餐",
+      "image_url": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&h=400&fit=crop&q=80",
+      "sort_order": 13,
+      "items": [
+        {
+          "name": "Kindermenu",
+          "name_en": "Kids Menu",
+          "name_zh": "儿童餐",
+          "description": "Keuze uit diverse kindergerechten",
+          "description_en": "Choice of various kids meals",
+          "description_zh": "多种儿童餐可选",
+          "price_cents": 700,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Keuze",
+              "name_en": "Choice",
+              "name_zh": "选择",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi met kipsaté", "name_en": "Rice with chicken satay", "name_zh": "炒饭配沙爹鸡", "price_cents": 0},
+                {"name": "Bami met frikandel", "name_en": "Noodles with frikandel", "name_zh": "炒面配肉卷", "price_cents": 0},
+                {"name": "Nasi met babi pangang", "name_en": "Rice with roasted pork", "name_zh": "炒饭配叉烧", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Rijsttafels",
+      "name_en": "Rice Tables",
+      "name_zh": "饭桌套餐",
+      "image_url": "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&h=400&fit=crop&q=80",
+      "sort_order": 14,
+      "items": [
+        {
+          "name": "Chinese Rijsttafel 1 persoon",
+          "name_en": "Chinese Rice Table for 1",
+          "name_zh": "中式套餐（1人）",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 2250,
+          "sort_order": 1,
+          "modifier_groups": []
+        },
+        {
+          "name": "Chinese Rijsttafel 2 personen",
+          "name_en": "Chinese Rice Table for 2",
+          "name_zh": "中式套餐（2人）",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 4200,
+          "sort_order": 2,
+          "modifier_groups": []
+        },
+        {
+          "name": "Rijsttafel Speciaal",
+          "name_en": "Special Rice Table",
+          "name_zh": "特制套餐",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 2800,
+          "sort_order": 3,
+          "modifier_groups": []
+        },
+        {
+          "name": "Rijsttafel Happy Gate",
+          "name_en": "Happy Gate Rice Table",
+          "name_zh": "喜临门套餐",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 3200,
+          "sort_order": 4,
+          "modifier_groups": []
+        }
+      ]
+    },
+    {
+      "name": "Speciaal aanbevolen",
+      "name_en": "Chef's Specials",
+      "name_zh": "推荐特色菜",
+      "image_url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=400&fit=crop&q=80",
+      "sort_order": 15,
+      "items": [
+        {
+          "name": "Speciaal aanbevolen gerecht",
+          "name_en": "Chef's Special",
+          "name_zh": "主厨推荐",
+          "description": "Vraag naar ons dagelijks speciaal",
+          "description_en": "Ask about our daily special",
+          "description_zh": "请询问每日特色菜",
+          "price_cents": 1350,
+          "sort_order": 1,
+          "modifier_groups": [
+            {
+              "name": "Bijgerecht",
+              "name_en": "Side dish",
+              "name_zh": "配菜",
+              "required": true,
+              "min_select": 1,
+              "max_select": 1,
+              "options": [
+                {"name": "Nasi", "name_en": "Rice", "name_zh": "炒饭", "price_cents": 0},
+                {"name": "Bami", "name_en": "Noodles", "name_zh": "炒面", "price_cents": 0},
+                {"name": "Witte rijst", "name_en": "White rice", "name_zh": "白饭", "price_cents": 0},
+                {"name": "Mihoen", "name_en": "Rice noodles", "name_zh": "米粉", "price_cents": 0},
+                {"name": "Chinese bami", "name_en": "Chinese noodles", "name_zh": "中式面", "price_cents": 0}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Eenpersoons gerechten",
+      "name_en": "Single Serving Meals",
+      "name_zh": "单人套餐",
+      "image_url": "https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=800&h=400&fit=crop&q=80",
+      "sort_order": 16,
+      "items": [
+        {
+          "name": "Eenpersoons gerecht A",
+          "name_en": "Single Meal A",
+          "name_zh": "单人套餐A",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1450,
+          "sort_order": 1,
+          "modifier_groups": []
+        },
+        {
+          "name": "Eenpersoons gerecht B",
+          "name_en": "Single Meal B",
+          "name_zh": "单人套餐B",
+          "description": "",
+          "description_en": "",
+          "description_zh": "",
+          "price_cents": 1550,
+          "sort_order": 2,
+          "modifier_groups": []
+        }
+      ]
+    }
+  ]
+}

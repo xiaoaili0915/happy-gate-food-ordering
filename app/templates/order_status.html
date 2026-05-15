@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Order Status - Happy Gate{% endblock %}
+
+{% block content %}
+{% if not order %}
+<div class="text-center py-12">
+    <p class="text-gray-500 text-lg" data-i18n="order.not_found">Bestelling niet gevonden</p>
+    <a href="/" class="inline-block mt-4 text-blue-600 hover:underline" data-i18n="order.back_to_menu">Terug naar menu</a>
+</div>
+{% else %}
+<div class="max-w-md mx-auto text-center py-8">
+    <div id="status-icon" class="mb-6">
+        {% if order.status.value == 'pending_restaurant_confirmation' %}
+        <div class="w-16 h-16 mx-auto bg-yellow-100 rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-yellow-600 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
+            </svg>
+        </div>
+        {% elif order.status.value == 'approved' %}
+        <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+            </svg>
+        </div>
+        {% else %}
+        <div class="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+            </svg>
+        </div>
+        {% endif %}
+    </div>
+
+    <h1 class="text-2xl font-bold mb-2" id="status-title">
+        {% if order.status.value == 'pending_restaurant_confirmation' %}
+            <span data-i18n="order.received">Bestelling Ontvangen</span>
+        {% elif order.status.value == 'approved' %}
+            <span data-i18n="order.confirmed">Bestelling Bevestigd!</span>
+        {% else %}
+            <span data-i18n="order.not_confirmed">Bestelling Niet Bevestigd</span>
+        {% endif %}
+    </h1>
+
+    <p class="text-gray-500 mb-6" id="status-message">
+        {% if order.status.value == 'pending_restaurant_confirmation' %}
+            <span data-i18n="order.pending_msg">Het restaurant bekijkt uw bestelling. U ontvangt binnenkort een bevestigingsmail.</span>
+        {% elif order.status.value == 'approved' %}
+            <span data-i18n="order.pickup_time">Ophaaltijd</span>: <strong>{{ order.expected_pickup_time }}</strong>
+        {% else %}
+            <span data-i18n="order.rejected_msg">Helaas kon het restaurant uw bestelling niet bevestigen. Probeer het opnieuw of neem rechtstreeks contact op.</span>
+        {% endif %}
+    </p>
+
+    <div class="bg-white rounded-lg shadow-sm p-4 border text-left">
+        <p class="text-sm text-gray-500">Order #{{ order.id }}</p>
+        <p class="font-medium mt-1">{{ order.customer_name }}</p>
+        <p class="text-sm text-gray-500">Totaal: &euro;{{ "%.2f" | format(order.subtotal_cents / 100) }}</p>
+    </div>
+
+    <a href="/" class="inline-block mt-8 text-blue-600 hover:underline" data-i18n="order.back_to_menu">Terug naar menu</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if order and order.status.value == 'pending_restaurant_confirmation' %}
+<script>
+// Poll for status updates while pending
+const orderId = {{ order.id }};
+setInterval(async () => {
+    try {
+        const res = await fetch(`/api/orders/${orderId}`);
+        const data = await res.json();
+        if (data.status !== 'pending_restaurant_confirmation') {
+            window.location.reload();
+        }
+    } catch (e) {}
+}, 5000);
+</script>
+{% endif %}
+{% endblock %}

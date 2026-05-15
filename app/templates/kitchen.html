@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen - Happy Gate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 min-h-screen text-white">
+    <header class="bg-gray-800 border-b border-gray-700 px-6 py-4">
+        <div class="flex items-center justify-between">
+            <h1 class="text-xl font-bold">Kitchen Orders</h1>
+            <div class="flex items-center gap-4">
+                <span id="connection-status" class="text-xs text-green-400">Connected</span>
+                <button onclick="toggleSound()" id="sound-btn" class="text-sm bg-gray-700 px-3 py-1 rounded">
+                    Sound: ON
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="p-6">
+        <div id="no-orders" class="text-center py-20 text-gray-400">
+            <p class="text-2xl">No pending orders</p>
+            <p class="text-sm mt-2">New orders will appear here automatically</p>
+        </div>
+        <div id="orders-grid" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3"></div>
+    </main>
+
+    <!-- Approve Modal -->
+    <div id="approve-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex items-center justify-center">
+        <div class="bg-white text-gray-900 rounded-lg p-6 w-full max-w-sm mx-4">
+            <h3 class="font-bold text-lg mb-4">Set Pickup Time</h3>
+            <input type="time" id="pickup-time" class="w-full border rounded-lg px-4 py-3 text-lg mb-4">
+            <div class="flex gap-3">
+                <button onclick="closeApproveModal()" class="flex-1 border rounded-lg py-3 font-medium">Cancel</button>
+                <button onclick="confirmApprove()" class="flex-1 bg-green-600 text-white rounded-lg py-3 font-medium">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const TOKEN = '{{ token }}';
+    let soundEnabled = true;
+    let knownOrderIds = new Set();
+    let approveOrderId = null;
+
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        document.getElementById('sound-btn').textContent = `Sound: ${soundEnabled ? 'ON' : 'OFF'}`;
+    }
+
+    function playAlert() {
+        if (!soundEnabled) return;
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.value = 800;
+            gain.gain.value = 0.3;
+            osc.start();
+            setTimeout(() => { osc.frequency.value = 1000; }, 200);
+            setTimeout(() => { osc.stop(); ctx.close(); }, 500);
+        } catch (e) {}
+    }
+
+    function timeRemaining(expiresAt) {
+        const diff = new Date(expiresAt + 'Z') - new Date();
+        if (diff <= 0) return 'Expired';
+        const secs = Math.floor(diff / 1000);
+        const mins = Math.floor(secs / 60);
+        const remainSecs = secs % 60;
+        return `${mins}:${remainSecs.toString().padStart(2, '0')}`;
+    }
+
+    function renderOrders(orders) {
+        const grid = document.getElementById('orders-grid');
+        const noOrders = document.getElementById('no-orders');
+
+        if (orders.length === 0) {
+            noOrders.classList.remove('hidden');
+            grid.innerHTML = '';
+            return;
+        }
+
+        noOrders.classList.add('hidden');
+        grid.innerHTML = orders.map(order => {
+            const items = order.items.map(item => {
+                const mods = item.modifiers.map(m => m.name).join(', ');
+                const modStr = mods ? `<span class="text-xs text-gray-500"> (${mods})</span>` : '';
+                const notes = item.special_notes ? `<div class="text-xs text-amber-600">${item.special_notes}</div>` : '';
+                return `<div class="py-1">${item.quantity}x ${item.name}${modStr}${notes}</div>`;
+            }).join('');
+
+            return `
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <span class="font-bold text-lg">#${order.id}</span>
+                        <span class="ml-2 text-sm text-gray-400">${order.customer_name}</span>
+                    </div>
+                    <span class="text-yellow-400 font-mono text-sm countdown" data-expires="${order.expires_at}">
+                        ${timeRemaining(order.expires_at)}
+                    </span>
+                </div>
+                <div class="text-sm mb-3">${items}</div>
+                ${order.pickup_notes ? `<div class="text-xs text-blue-300 mb-3">Note: ${order.pickup_notes}</div>` : ''}
+                <div class="text-xs text-gray-400 mb-3">Phone: ${order.customer_phone}</div>
+                <div class="flex gap-2">
+                    <button onclick="openApproveModal(${order.id})"
+                            class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium text-lg">
+                        Approve
+                    </button>
+                    <button onclick="rejectOrder(${order.id})"
+                            class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium text-lg">
+                        Reject
+                    </button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function openApproveModal(orderId) {
+        approveOrderId = orderId;
+        // Default to 15 minutes from now
+        const now = new Date();
+        now.setMinutes(now.getMinutes() + 15);
+        document.getElementById('pickup-time').value =
+            now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        document.getElementById('approve-modal').classList.remove('hidden');
+    }
+
+    function closeApproveModal() {
+        document.getElementById('approve-modal').classList.add('hidden');
+        approveOrderId = null;
+    }
+
+    async function confirmApprove() {
+        const time = document.getElementById('pickup-time').value;
+        if (!time) return;
+        try {
+            await fetch(`/api/orders/${approveOrderId}/approve?token=${TOKEN}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({expected_pickup_time: time}),
+            });
+        } catch (e) {}
+        closeApproveModal();
+        fetchOrders();
+    }
+
+    async function rejectOrder(orderId) {
+        if (!confirm('Reject this order?')) return;
+        try {
+            await fetch(`/api/orders/${orderId}/reject?token=${TOKEN}`, {method: 'POST'});
+        } catch (e) {}
+        fetchOrders();
+    }
+
+    async function fetchOrders() {
+        try {
+            const res = await fetch(`/api/kitchen/orders?token=${TOKEN}`);
+            const orders = await res.json();
+
+            // Check for new orders
+            const newIds = new Set(orders.map(o => o.id));
+            for (const id of newIds) {
+                if (!knownOrderIds.has(id)) {
+                    playAlert();
+                    break;
+                }
+            }
+            knownOrderIds = newIds;
+
+            renderOrders(orders);
+            document.getElementById('connection-status').textContent = 'Connected';
+            document.getElementById('connection-status').className = 'text-xs text-green-400';
+        } catch (e) {
+            document.getElementById('connection-status').textContent = 'Disconnected';
+            document.getElementById('connection-status').className = 'text-xs text-red-400';
+        }
+    }
+
+    // Update countdowns every second
+    setInterval(() => {
+        document.querySelectorAll('.countdown').forEach(el => {
+            el.textContent = timeRemaining(el.dataset.expires);
+        });
+    }, 1000);
+
+    // Poll for orders every 5 seconds
+    fetchOrders();
+    setInterval(fetchOrders, 5000);
+    </script>
+</body>
+</html>
