@@ -25,8 +25,7 @@ python -m pytest tests          # 14 tests
    | Name | Value |
    | --- | --- |
    | `KITCHEN_TOKEN` | long random string; the Android app logs in with it |
-   | `RESEND_API_KEY` | from resend.com (customer and restaurant emails) |
-   | `RESTAURANT_EMAIL` | where new-order emails go |
+   | `RESEND_API_KEY` | from resend.com (customer confirmation / rejection emails) |
    | `FROM_EMAIL` | verified sender on Resend |
    | `RESTAURANT_TIMEZONE` | `Europe/Amsterdam` |
    | `FIREBASE_CREDENTIALS` | service-account JSON, once push is set up (optional) |

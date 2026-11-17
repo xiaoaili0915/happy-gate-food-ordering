@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Order, OrderItem, OrderItemModifier, OrderStatus
 from app.schemas import OrderCreateIn
-from app.services.email import send_new_order_to_restaurant
 from app.services.push import notify_new_order
 from app.services.timeout import expire_pending
 
@@ -57,11 +56,6 @@ def create_order(payload: OrderCreateIn, db: Session = Depends(get_db)):
 
     db.commit()
     db.refresh(order)
-
-    try:
-        send_new_order_to_restaurant(order)
-    except Exception:
-        pass
 
     try:
         notify_new_order(order.id, order.customer_name, order.subtotal_cents)

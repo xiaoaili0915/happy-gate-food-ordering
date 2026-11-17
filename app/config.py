@@ -5,7 +5,6 @@ class Settings(BaseSettings):
     app_env: str = "development"
     kitchen_token: str = "dev-token"
     resend_api_key: str = ""
-    restaurant_email: str = ""
     from_email: str = "orders@example.com"
     printer_ip: str = "192.168.1.100"
     printer_port: int = 9100

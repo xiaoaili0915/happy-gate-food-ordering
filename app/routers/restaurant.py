@@ -15,7 +15,7 @@ from app.config import settings
 from app.database import get_db
 from app.models import DeviceToken, Order, OrderStatus, PrintEvent
 from app.schemas import AcceptIn, DeviceRegisterIn, PrintEventIn, RejectIn
-from app.services.email import send_order_approved, send_order_ready, send_order_rejected
+from app.services.email import send_order_approved, send_order_rejected
 from app.services.menu_seed import seed_menu
 from app.services.timeout import expire_pending
 
@@ -213,11 +213,6 @@ def mark_ready(order_id: int, db: Session = Depends(get_db)):
     order.ready_at = datetime.now(timezone.utc)
     db.commit()
     db.refresh(order)
-
-    try:
-        send_order_ready(order)
-    except Exception:
-        pass
     return order_to_dict(order)
 
 
