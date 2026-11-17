@@ -61,3 +61,12 @@ def send_order_rejected(order):
     <p>Please try again or contact the restaurant directly.</p>
     """
     _send_email(order.customer_email, "Order Update", html)
+
+
+def send_order_ready(order):
+    html = f"""
+    <h2>Your order is ready for pickup!</h2>
+    <p>Hi {order.customer_name},</p>
+    <p>Your order #{order.id} is ready. See you soon!</p>
+    """
+    _send_email(order.customer_email, "Order Ready for Pickup", html)

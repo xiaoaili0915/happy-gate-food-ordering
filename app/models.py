@@ -12,6 +12,8 @@ class OrderStatus(str, enum.Enum):
     approved = "approved"
     rejected_manual = "rejected_manual"
     rejected_timeout = "rejected_timeout"
+    ready = "ready"
+    completed = "completed"
 
 
 class MenuCategory(Base):
@@ -93,8 +95,17 @@ class Order(Base):
     approved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     rejected_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     expected_pickup_time: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    # Restaurant app fields (server-computed, UTC)
+    preparation_minutes: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    estimated_ready_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    ready_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    rejection_reason: Mapped[str] = mapped_column(Text, default="")
 
     items: Mapped[list["OrderItem"]] = relationship(back_populates="order")
+    print_events: Mapped[list["PrintEvent"]] = relationship(
+        back_populates="order", order_by="PrintEvent.created_at"
+    )
 
 
 class OrderItem(Base):
@@ -121,3 +132,30 @@ class OrderItemModifier(Base):
     price_cents: Mapped[int] = mapped_column(Integer, default=0)
 
     order_item: Mapped["OrderItem"] = relationship(back_populates="modifiers")
+
+
+class PrintEvent(Base):
+    """Audit record of a kitchen-ticket print attempt reported by the restaurant app."""
+
+    __tablename__ = "print_events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"))
+    status: Mapped[str] = mapped_column(String(20))  # queued/sending/printed/failed/uncertain
+    message: Mapped[str] = mapped_column(Text, default="")
+    device: Mapped[str] = mapped_column(String(100), default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    order: Mapped["Order"] = relationship(back_populates="print_events")
+
+
+class DeviceToken(Base):
+    """Push-notification token of a restaurant device."""
+
+    __tablename__ = "device_tokens"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    token: Mapped[str] = mapped_column(String(500), unique=True)
+    platform: Mapped[str] = mapped_column(String(20), default="android")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

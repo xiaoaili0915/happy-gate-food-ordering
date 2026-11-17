@@ -16,7 +16,7 @@
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
             </svg>
         </div>
-        {% elif order.status.value == 'approved' %}
+        {% elif order.status.value in ('approved', 'ready', 'completed') %}
         <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
             <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
@@ -36,6 +36,8 @@
             <span data-i18n="order.received">Bestelling Ontvangen</span>
         {% elif order.status.value == 'approved' %}
             <span data-i18n="order.confirmed">Bestelling Bevestigd!</span>
+        {% elif order.status.value in ('ready', 'completed') %}
+            <span data-i18n="order.ready">Bestelling Klaar!</span>
         {% else %}
             <span data-i18n="order.not_confirmed">Bestelling Niet Bevestigd</span>
         {% endif %}
@@ -46,6 +48,8 @@
             <span data-i18n="order.pending_msg">Het restaurant bekijkt uw bestelling. U ontvangt binnenkort een bevestigingsmail.</span>
         {% elif order.status.value == 'approved' %}
             <span data-i18n="order.pickup_time">Ophaaltijd</span>: <strong>{{ order.expected_pickup_time }}</strong>
+        {% elif order.status.value in ('ready', 'completed') %}
+            <span data-i18n="order.ready_msg">Uw bestelling staat klaar om opgehaald te worden.</span>
         {% else %}
             <span data-i18n="order.rejected_msg">Helaas kon het restaurant uw bestelling niet bevestigen. Probeer het opnieuw of neem rechtstreeks contact op.</span>
         {% endif %}
@@ -63,15 +67,16 @@
 {% endblock %}
 
 {% block scripts %}
-{% if order and order.status.value == 'pending_restaurant_confirmation' %}
+{% if order and order.status.value in ('pending_restaurant_confirmation', 'approved') %}
 <script>
-// Poll for status updates while pending
+// Poll for status updates while the restaurant is still working on the order
 const orderId = {{ order.id }};
+const currentStatus = '{{ order.status.value }}';
 setInterval(async () => {
     try {
         const res = await fetch(`/api/orders/${orderId}`);
         const data = await res.json();
-        if (data.status !== 'pending_restaurant_confirmation') {
+        if (data.status !== currentStatus) {
             window.location.reload();
         }
     } catch (e) {}

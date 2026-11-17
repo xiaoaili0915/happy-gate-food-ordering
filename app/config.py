@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     printer_port: int = 9100
     printer_enabled: bool = False
     database_url: str = "sqlite:///./orders.db"
+    # Firebase Cloud Messaging (restaurant app push). Path to a service-account
+    # JSON file, or the JSON itself. Empty disables push.
+    firebase_credentials: str = ""
 
     # Restaurant info
     restaurant_name: str = "Happy Gate"
@@ -19,6 +22,7 @@ class Settings(BaseSettings):
     restaurant_currency: str = "EUR"
     restaurant_cuisine: str = "Chinese"
     restaurant_language: str = "nl"
+    restaurant_timezone: str = "Europe/Amsterdam"
 
     # Service configuration
     service_pickup: bool = True

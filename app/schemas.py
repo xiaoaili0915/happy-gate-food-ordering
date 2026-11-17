@@ -72,3 +72,25 @@ class OrderOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# --- Restaurant app (Android) ---
+
+
+class AcceptIn(BaseModel):
+    preparation_minutes: int
+
+
+class RejectIn(BaseModel):
+    reason: str = ""
+
+
+class PrintEventIn(BaseModel):
+    status: str  # queued | sending | printed | failed | uncertain
+    message: str = ""
+    device: str = ""
+
+
+class DeviceRegisterIn(BaseModel):
+    token: str
+    platform: str = "android"

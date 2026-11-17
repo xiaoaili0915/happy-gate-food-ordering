@@ -9,3 +9,5 @@ resend==2.4.0
 python-escpos==2.2.0
 aiosqlite==0.20.0
 email-validator>=2.0.0
+google-auth>=2.30.0
+httpx>=0.27.0

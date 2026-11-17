@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.orm import Session
@@ -78,6 +79,13 @@ def approve_order(
     order.status = OrderStatus.approved
     order.approved_at = datetime.now(timezone.utc)
     order.expected_pickup_time = payload.expected_pickup_time
+    try:  # "HH:MM" restaurant-local -> absolute UTC timestamp for the restaurant app
+        tz = ZoneInfo(settings.restaurant_timezone)
+        local = datetime.now(tz)
+        hh, mm = (int(x) for x in payload.expected_pickup_time.split(":"))
+        order.estimated_ready_at = local.replace(hour=hh, minute=mm, second=0, microsecond=0).astimezone(timezone.utc)
+    except (ValueError, AttributeError):
+        pass
     db.commit()
     db.refresh(order)
 

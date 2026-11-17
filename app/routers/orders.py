@@ -7,6 +7,7 @@ from app.database import get_db
 from app.models import Order, OrderItem, OrderItemModifier, OrderStatus
 from app.schemas import OrderCreateIn
 from app.services.email import send_new_order_to_restaurant
+from app.services.push import notify_new_order
 
 router = APIRouter()
 
@@ -61,6 +62,11 @@ def create_order(payload: OrderCreateIn, db: Session = Depends(get_db)):
     except Exception:
         pass
 
+    try:
+        notify_new_order(order.id, order.customer_name, order.subtotal_cents)
+    except Exception:
+        pass
+
     return {"order_id": order.id, "status": order.status.value}
 
 
@@ -87,5 +93,6 @@ def get_order_status(order_id: int, db: Session = Depends(get_db)):
         "id": order.id,
         "status": order.status.value,
         "expected_pickup_time": order.expected_pickup_time,
+        "estimated_ready_at": order.estimated_ready_at.isoformat() + "Z" if order.estimated_ready_at else None,
         "created_at": order.created_at.isoformat(),
     }
