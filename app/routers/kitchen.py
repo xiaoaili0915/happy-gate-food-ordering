@@ -10,6 +10,7 @@ from app.models import Order, OrderStatus
 from app.schemas import OrderApproveIn
 from app.services.email import send_order_approved, send_order_rejected
 from app.services.printer import print_order
+from app.services.timeout import expire_pending
 
 router = APIRouter()
 
@@ -32,6 +33,7 @@ def kitchen_page(request: Request, token: str = Query(...)):
 @router.get("/api/kitchen/orders")
 def get_kitchen_orders(token: str = Query(...), db: Session = Depends(get_db)):
     _verify_token(token)
+    expire_pending(db)
     orders = (
         db.query(Order)
         .filter(Order.status == OrderStatus.pending_restaurant_confirmation)

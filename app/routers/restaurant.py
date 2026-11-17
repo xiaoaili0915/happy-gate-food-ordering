@@ -16,6 +16,8 @@ from app.database import get_db
 from app.models import DeviceToken, Order, OrderStatus, PrintEvent
 from app.schemas import AcceptIn, DeviceRegisterIn, PrintEventIn, RejectIn
 from app.services.email import send_order_approved, send_order_ready, send_order_rejected
+from app.services.menu_seed import seed_menu
+from app.services.timeout import expire_pending
 
 router = APIRouter(prefix="/api/restaurant")
 
@@ -117,6 +119,7 @@ def list_orders(
     q: str | None = Query(None, description="Order number, history only"),
     db: Session = Depends(get_db),
 ):
+    expire_pending(db)
     query = db.query(Order)
     if scope == "pending":
         query = query.filter(Order.status == OrderStatus.pending_restaurant_confirmation)
@@ -145,6 +148,7 @@ def list_orders(
 
 @router.get("/orders/{order_id}", dependencies=[Depends(require_staff)])
 def get_order(order_id: int, db: Session = Depends(get_db)):
+    expire_pending(db)
     return order_to_dict(_get_order(db, order_id))
 
 
@@ -152,6 +156,7 @@ def get_order(order_id: int, db: Session = Depends(get_db)):
 def accept_order(order_id: int, payload: AcceptIn, db: Session = Depends(get_db)):
     if not 1 <= payload.preparation_minutes <= 240:
         raise HTTPException(status_code=422, detail="preparation_minutes must be 1-240")
+    expire_pending(db)
     order = _get_order(db, order_id)
     if order.status == OrderStatus.approved:
         return order_to_dict(order)  # idempotent
@@ -176,6 +181,7 @@ def accept_order(order_id: int, payload: AcceptIn, db: Session = Depends(get_db)
 
 @router.post("/orders/{order_id}/reject", dependencies=[Depends(require_staff)])
 def reject_order(order_id: int, payload: RejectIn, db: Session = Depends(get_db)):
+    expire_pending(db)
     order = _get_order(db, order_id)
     if order.status == OrderStatus.rejected_manual:
         return order_to_dict(order)  # idempotent
@@ -263,3 +269,10 @@ def register_device(payload: DeviceRegisterIn, db: Session = Depends(get_db)):
         db.add(DeviceToken(token=token, platform=payload.platform, created_at=now, updated_at=now))
     db.commit()
     return {"ok": True}
+
+
+@router.post("/admin/seed-menu", dependencies=[Depends(require_staff)])
+def admin_seed_menu(db: Session = Depends(get_db)):
+    """(Re)load the menu from data/menu_seed.json. Run once after deploying to a fresh database."""
+    counts = seed_menu(db)
+    return {"ok": True, **counts}

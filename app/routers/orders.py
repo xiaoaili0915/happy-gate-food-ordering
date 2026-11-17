@@ -8,13 +8,14 @@ from app.models import Order, OrderItem, OrderItemModifier, OrderStatus
 from app.schemas import OrderCreateIn
 from app.services.email import send_new_order_to_restaurant
 from app.services.push import notify_new_order
+from app.services.timeout import expire_pending
 
 router = APIRouter()
 
 
 @router.post("/api/orders")
 def create_order(payload: OrderCreateIn, db: Session = Depends(get_db)):
-    now = datetime.now(timezone.utc)
+    now = datetime.now(timezone.utc).replace(tzinfo=None)  # columns are naive UTC
     subtotal = 0
     for item in payload.items:
         item_total = item.unit_price_cents * item.quantity
@@ -74,6 +75,7 @@ def create_order(payload: OrderCreateIn, db: Session = Depends(get_db)):
 def order_status_page(order_id: int, request: Request, db: Session = Depends(get_db)):
     from app.main import templates
 
+    expire_pending(db)
     order = db.query(Order).filter(Order.id == order_id).first()
     if not order:
         return templates.TemplateResponse(
@@ -86,6 +88,7 @@ def order_status_page(order_id: int, request: Request, db: Session = Depends(get
 
 @router.get("/api/orders/{order_id}")
 def get_order_status(order_id: int, db: Session = Depends(get_db)):
+    expire_pending(db)
     order = db.query(Order).filter(Order.id == order_id).first()
     if not order:
         return {"error": "not found"}, 404

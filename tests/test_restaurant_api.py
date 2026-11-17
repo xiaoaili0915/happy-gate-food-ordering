@@ -140,3 +140,35 @@ def test_legacy_web_kitchen_approve_still_works_and_fills_ready_time(client, aut
 def test_404_for_unknown_order(client, auth):
     assert client.get("/api/restaurant/orders/999999", headers=auth).status_code == 404
     assert client.post("/api/restaurant/orders/999999/accept", json={"preparation_minutes": 15}, headers=auth).status_code == 404
+
+
+def test_pending_order_expires_lazily_on_read(client, auth, new_order):
+    """No background loop on serverless: reading orders must apply the 3-minute timeout."""
+    from datetime import datetime, timedelta, timezone
+    from app.database import SessionLocal
+    from app.models import Order
+    oid = new_order()
+    db = SessionLocal()
+    try:
+        o = db.query(Order).get(oid)
+        o.expires_at = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(seconds=1)
+        db.commit()
+    finally:
+        db.close()
+    pending_ids = [o["id"] for o in client.get("/api/restaurant/orders?scope=pending", headers=auth).json()]
+    assert oid not in pending_ids
+    assert client.get(f"/api/orders/{oid}").json()["status"] == "rejected_timeout"
+    # cannot accept an expired order
+    assert client.post(f"/api/restaurant/orders/{oid}/accept", json={"preparation_minutes": 15}, headers=auth).status_code == 409
+
+
+def test_admin_seed_menu_loads_menu(client, auth):
+    assert client.post("/api/restaurant/admin/seed-menu").status_code == 401
+    r = client.post("/api/restaurant/admin/seed-menu", headers=auth)
+    assert r.status_code == 200, r.text
+    assert r.json()["items"] == 44
+    menu = client.get("/api/menu").json()
+    assert isinstance(menu, list) and len(menu) == 16
+    # idempotent: running again does not duplicate
+    assert client.post("/api/restaurant/admin/seed-menu", headers=auth).json()["items"] == 44
+    assert len(client.get("/api/menu").json()) == 16

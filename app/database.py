@@ -3,10 +3,25 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from app.config import settings
 
-engine = create_engine(
-    settings.database_url,
-    connect_args={"check_same_thread": False},
-)
+def _engine_url(url: str) -> str:
+    """Neon/Vercel hand out postgres:// or postgresql:// URLs; route them to psycopg 3."""
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix):]
+    return url
+
+
+_url = _engine_url(settings.database_url)
+if _url.startswith("sqlite"):
+    engine = create_engine(_url, connect_args={"check_same_thread": False})
+else:
+    # Timestamps are stored naive-UTC; pin the session timezone so Postgres
+    # never shifts them. pool_pre_ping survives Neon's idle auto-suspend.
+    engine = create_engine(
+        _url,
+        pool_pre_ping=True,
+        connect_args={"options": "-c timezone=UTC"},
+    )
 SessionLocal = sessionmaker(bind=engine)
 
 
@@ -33,9 +48,9 @@ def ensure_schema():
     existing = {c["name"] for c in inspector.get_columns("orders")}
     wanted = {
         "preparation_minutes": "INTEGER",
-        "estimated_ready_at": "DATETIME",
-        "ready_at": "DATETIME",
-        "completed_at": "DATETIME",
+        "estimated_ready_at": "TIMESTAMP",
+        "ready_at": "TIMESTAMP",
+        "completed_at": "TIMESTAMP",
         "rejection_reason": "TEXT DEFAULT ''",
     }
     with engine.begin() as conn:
