@@ -17,8 +17,8 @@ python -m pytest tests          # 14 tests
 
 ## Deploy on Vercel + Neon
 
-1. Vercel → New Project → import this GitHub repo. Framework preset "Other"; no build command.
-   `vercel.json` routes every path to `api/index.py`, which serves the FastAPI app.
+1. Vercel → New Project → import this GitHub repo. Vercel detects the FastAPI app in `app/main.py`
+   automatically (framework preset "FastAPI"); no build command and no `vercel.json` needed.
 2. Vercel project → Storage → add **Neon Postgres**. It injects `DATABASE_URL` automatically.
 3. Project → Settings → Environment Variables, add:
 
