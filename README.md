@@ -15,7 +15,7 @@ uvicorn app.main:app --reload --port 8080
 python -m pytest tests          # 14 tests
 ```
 
-## Deploy on Vercel + Neon (recommended)
+## Deploy on Vercel + Neon
 
 1. Vercel → New Project → import this GitHub repo. Framework preset "Other"; no build command.
    `vercel.json` routes every path to `api/index.py`, which serves the FastAPI app.
@@ -42,8 +42,3 @@ python -m pytest tests          # 14 tests
 Notes: there is no background process on Vercel, so the 3-minute auto-reject runs whenever
 orders are read (website status page, kitchen page, app polling). At ~20 orders a day this stays
 well inside the free tiers of both Vercel and Neon.
-
-## Deploy on Render (alternative)
-
-`render.yaml` + `Dockerfile` run the same app with SQLite inside the container (data resets on
-each deploy). The menu is seeded during the Docker build.
